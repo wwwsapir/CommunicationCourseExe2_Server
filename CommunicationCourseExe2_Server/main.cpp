@@ -5,8 +5,21 @@ using namespace std;
 #include <winsock2.h>
 #include <string.h>
 #include <time.h>
+#include "operations.h"
 
 #define TIME_PORT	27015
+
+void CreateResponse(char recvMessage[], char sendBuff[])
+{
+	if (strcmp(recvMessage, "What's the time?") == 0)
+	{
+		GetTime(sendBuff);
+	}
+	else if (strcmp(recvMessage, "What's the time without date?") == 0)
+	{
+		GetTimeWithoutDate(sendBuff);
+	}
+}
 
 void main()
 {
