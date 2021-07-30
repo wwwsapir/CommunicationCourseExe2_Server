@@ -24,7 +24,13 @@ void GetTimeWithoutDate(char sendBuff[])
 	time_t timer;
 	time(&timer);
 	// Parse the current time to required string
-	char buffer[80];
 	struct tm * timeInfo = localtime(&timer);
 	strftime(sendBuff, SEND_BUFFER_LENGTH, "%H:%M:%S", timeInfo);
+}
+
+void GetTimeSinceEpoch(char sendBuff[])
+{
+	time_t timer;
+	time_t seconds = time(&timer);	// Get seconds since epoch of current time as integer
+	_itoa(seconds, sendBuff, 10); // Convert int time into string
 }
