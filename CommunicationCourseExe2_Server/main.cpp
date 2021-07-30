@@ -12,11 +12,14 @@ using namespace std;
 void CreateResponse(char recvMessage[], char sendBuff[])
 {
 	if (strcmp(recvMessage, "Get the time") == 0)
-		GetTime(sendBuff);
+		GetTime(sendBuff, false);
 	else if (strcmp(recvMessage, "Get the time without date") == 0)
 		GetTimeWithoutDate(sendBuff);
 	else if (strcmp(recvMessage, "Get the time since epoch") == 0)
 		GetTimeSinceEpoch(sendBuff);
+	else if (strcmp(recvMessage, "Get the time in ticks") == 0)
+		GetTime(sendBuff, true);
+	
 }
 
 void main()
