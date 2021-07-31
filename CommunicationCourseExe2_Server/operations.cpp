@@ -40,7 +40,7 @@ void GetTime(char sendBuff[], bool inTicks)
 
 void GetTimeWithoutDate(char sendBuff[])
 {
-	getTimeUsingFormat(sendBuff, "%H:%M:%S");
+	getTimeUsingFormat(sendBuff, "%X");
 }
 
 void GetTimeSinceEpoch(char sendBuff[])
@@ -48,4 +48,19 @@ void GetTimeSinceEpoch(char sendBuff[])
 	time_t timer;
 	time_t seconds = time(&timer);	// Get seconds since epoch of current time as integer
 	_itoa(seconds, sendBuff, 10); // Convert int time into string
+}
+
+void GetTimeWithoutDateOrSeconds(char sendBuff[])
+{
+	getTimeUsingFormat(sendBuff, "%H:%M");
+}
+
+void GetYear(char sendBuff[])
+{
+	getTimeUsingFormat(sendBuff, "%Y");
+}
+
+void GetMonthAndDay(char sendBuff[])
+{
+	getTimeUsingFormat(sendBuff, "%B %d");
 }

@@ -19,6 +19,12 @@ void createResponse(char recvMessage[], char sendBuff[])
 		GetTimeSinceEpoch(sendBuff);
 	else if (strcmp(recvMessage, "Get the time in ticks") == 0)
 		GetTime(sendBuff, true);
+	else if (strcmp(recvMessage, "Get the time without date or seconds") == 0)
+		GetTimeWithoutDateOrSeconds(sendBuff);
+	else if (strcmp(recvMessage, "Get the year") == 0)
+		GetYear(sendBuff);
+	else if (strcmp(recvMessage, "Get the month and day") == 0)
+		GetMonthAndDay(sendBuff);
 	
 }
 
