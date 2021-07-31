@@ -6,6 +6,7 @@ using namespace std;
 #include <string.h>
 #include <time.h>
 #include <windows.h>
+#include "operations.h"
 
 #define SEND_BUFFER_LENGTH		255
 #define SECONDS_PER_MINUTE		60
@@ -16,6 +17,8 @@ using namespace std;
 #define SAN_FRANCISCO_UTC_DIFF	-7
 #define PORTO_UTC_DIFF			1
 #define IS_SUPPORTED_POSITION	8
+//#define MAX_TIME_FOR_TIMER		3 * SECONDS_PER_MINUTE
+#define MAX_TIME_FOR_TIMER		3
 
 void getTimeUsingFormat(char sendBuff[], char formatStr[])
 {
@@ -136,4 +139,44 @@ void GetTimeWithoutDateInCity(char sendBuff[], char city[])
 	// Add a byte to let the client know if the city was suppored or not
 	sendBuff[IS_SUPPORTED_POSITION] = isSupported ? '1' : '0';
 	sendBuff[IS_SUPPORTED_POSITION + 1] = '\0';
+}
+
+void MeasureTimeLap(char sendBuff[], int * lapTimer)
+{
+	if (*lapTimer == TIMER_INACTIVE)
+	{
+		StartTimer(lapTimer);
+		strcpy(sendBuff, "Started timer!");
+	}
+	else
+	{
+		int timeLapsed = CheckTimer(lapTimer, true);
+		if (timeLapsed > MAX_TIME_FOR_TIMER)
+		{
+			StartTimer(lapTimer);
+			strcpy(sendBuff, "Started timer!");
+		}
+		else
+		{
+			char lapBuff[255];
+			_itoa(timeLapsed, lapBuff, 10);
+			sprintf(sendBuff, "Lap time is %s seconds.", lapBuff);
+		}
+	}
+}
+
+void StartTimer(int *lapTimer)
+{
+	time_t timer;
+	*lapTimer = time(&timer);
+}
+
+int CheckTimer(int *lapTimer, bool reset)
+{
+	time_t timer;
+	time_t secondsSinceEpoch = time(&timer);
+	int timeLapsed = secondsSinceEpoch - (*lapTimer);
+	if (reset)
+		*lapTimer = TIMER_INACTIVE;
+	return timeLapsed;
 }

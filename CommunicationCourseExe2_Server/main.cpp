@@ -9,7 +9,7 @@ using namespace std;
 
 #define TIME_PORT	27015
 
-void createResponse(char recvMessage[], char sendBuff[])
+void createResponse(char recvMessage[], char sendBuff[], int * lapTimer)
 {
 	if (strcmp(recvMessage, "Get the time") == 0)
 		GetTime(sendBuff, false);
@@ -33,7 +33,12 @@ void createResponse(char recvMessage[], char sendBuff[])
 		GetDaylightSavings(sendBuff);
 	// Compare strings up to a certain length:
 	else if (memcmp(recvMessage, "Get the time in city", strlen("Get the time in city")) == 0)
-		GetTimeWithoutDateInCity(sendBuff, recvMessage + strlen("Get the time in city"));
+	{
+		char * cityInMessage = recvMessage + strlen("Get the time in city");
+		GetTimeWithoutDateInCity(sendBuff, cityInMessage);
+	}
+	else if (strcmp(recvMessage, "Measure Time Lap") == 0)
+		MeasureTimeLap(sendBuff, lapTimer);
 }
 
 void main()
@@ -122,6 +127,8 @@ void main()
 	char sendBuff[255];
 	char recvBuff[255];
 
+	int lapTimer = TIMER_INACTIVE;
+
 	// Get client's requests and answer them.
 	// The recvfrom function receives a datagram and stores the source address.
 	// The buffer for data to be received and its available size are 
@@ -146,7 +153,7 @@ void main()
 		cout << "Time Server: Recieved: " << bytesRecv << " bytes of \"" << recvBuff << "\" message.\n";
 
 		// Answer client's request
-		createResponse(recvBuff, sendBuff);
+		createResponse(recvBuff, sendBuff, &lapTimer);
 
 											   // Sends the answer to the client, using the client address gathered
 											   // by recvfrom. 
