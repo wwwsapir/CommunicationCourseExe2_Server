@@ -129,7 +129,6 @@ void main()
 		}
 
 		recvBuff[bytesRecv] = '\0'; //add the null-terminating to make it a string
-		cout << "Time Server: Recieved: " << bytesRecv << " bytes of \"" << recvBuff << "\" message.\n";
 
 		// Answer client's request
 		CreateResponse(recvBuff, sendBuff);
@@ -145,6 +144,8 @@ void main()
 			return;
 		}
 
+		// Log received and sent data
+		cout << "Time Server: Recieved: " << bytesRecv << " bytes of \"" << recvBuff << "\" message.\n";
 		cout << "Time Server: Sent: " << bytesSent << "\\" << strlen(sendBuff) << " bytes of \"" << sendBuff << "\" message.\n";
 	}
 
