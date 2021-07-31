@@ -7,7 +7,10 @@ using namespace std;
 #include <time.h>
 #include <windows.h>
 
-#define SEND_BUFFER_LENGTH 255
+#define SEND_BUFFER_LENGTH	255
+#define SECONDS_PER_MINUTE	60
+#define SECONDS_PER_HOUR	60 * SECONDS_PER_MINUTE
+#define SECONDS_PER_DAY		24 * SECONDS_PER_HOUR
 
 void getTimeUsingFormat(char sendBuff[], char formatStr[])
 {
@@ -63,4 +66,19 @@ void GetYear(char sendBuff[])
 void GetMonthAndDay(char sendBuff[])
 {
 	getTimeUsingFormat(sendBuff, "%B %d");
+}
+
+void GetSecondsSinceBeginingOfMonth(char sendBuff[])
+{
+	char tempBuff[SEND_BUFFER_LENGTH];
+	getTimeUsingFormat(tempBuff, "%d");
+	int daySeconds = atoi(tempBuff) * SECONDS_PER_DAY;
+	getTimeUsingFormat(tempBuff, "%H");
+	int hourSeconds = atoi(tempBuff) * SECONDS_PER_HOUR;
+	getTimeUsingFormat(tempBuff, "%M");
+	int minuteSeconds = atoi(tempBuff) * SECONDS_PER_MINUTE;
+	getTimeUsingFormat(tempBuff, "%S");
+	int seconds = atoi(tempBuff);
+	int secondsSinceBegMonth = daySeconds + hourSeconds + minuteSeconds + seconds;
+	_itoa(secondsSinceBegMonth, sendBuff, 10);
 }

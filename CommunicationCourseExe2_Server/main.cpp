@@ -25,7 +25,8 @@ void createResponse(char recvMessage[], char sendBuff[])
 		GetYear(sendBuff);
 	else if (strcmp(recvMessage, "Get the month and day") == 0)
 		GetMonthAndDay(sendBuff);
-	
+	else if (strcmp(recvMessage, "Get the seconds since the beginning of the month") == 0)
+		GetSecondsSinceBeginingOfMonth(sendBuff);
 }
 
 void main()
