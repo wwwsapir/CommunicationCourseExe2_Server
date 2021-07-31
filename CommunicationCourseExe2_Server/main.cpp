@@ -31,6 +31,9 @@ void createResponse(char recvMessage[], char sendBuff[])
 		GetWeekOfYear(sendBuff);
 	else if (strcmp(recvMessage, "Get the daylight savings status") == 0)
 		GetDaylightSavings(sendBuff);
+	// Compare strings up to a certain length:
+	else if (memcmp(recvMessage, "Get the time in city", strlen("Get the time in city")) == 0)
+		GetTimeWithoutDateInCity(sendBuff, recvMessage + strlen("Get the time in city"));
 }
 
 void main()
@@ -140,6 +143,7 @@ void main()
 		}
 
 		recvBuff[bytesRecv] = '\0'; //add the null-terminating to make it a string
+		cout << "Time Server: Recieved: " << bytesRecv << " bytes of \"" << recvBuff << "\" message.\n";
 
 		// Answer client's request
 		createResponse(recvBuff, sendBuff);
@@ -155,8 +159,6 @@ void main()
 			return;
 		}
 
-		// Log received and sent data
-		cout << "Time Server: Recieved: " << bytesRecv << " bytes of \"" << recvBuff << "\" message.\n";
 		cout << "Time Server: Sent: " << bytesSent << "\\" << strlen(sendBuff) << " bytes of \"" << sendBuff << "\" message.\n";
 	}
 

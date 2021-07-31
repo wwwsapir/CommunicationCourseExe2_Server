@@ -7,10 +7,15 @@ using namespace std;
 #include <time.h>
 #include <windows.h>
 
-#define SEND_BUFFER_LENGTH	255
-#define SECONDS_PER_MINUTE	60
-#define SECONDS_PER_HOUR	60 * SECONDS_PER_MINUTE
-#define SECONDS_PER_DAY		24 * SECONDS_PER_HOUR
+#define SEND_BUFFER_LENGTH		255
+#define SECONDS_PER_MINUTE		60
+#define SECONDS_PER_HOUR		60 * SECONDS_PER_MINUTE
+#define SECONDS_PER_DAY			24 * SECONDS_PER_HOUR
+#define TOKYO_UTC_DIFF			9
+#define MELBOURNE_UTC_DIFF		10
+#define SAN_FRANCISCO_UTC_DIFF	-7
+#define PORTO_UTC_DIFF			1
+#define IS_SUPPORTED_POSITION	8
 
 void getTimeUsingFormat(char sendBuff[], char formatStr[])
 {
@@ -96,4 +101,41 @@ void GetDaylightSavings(char sendBuff[])
 	// Check the daylight savings status
 	struct tm * timeInfo = localtime(&timer);
 	strcpy(sendBuff, timeInfo->tm_isdst ? "active" : "inactive");
+}
+
+void GetTimeWithoutDateInCity(char sendBuff[], char city[])
+{
+	time_t utc_now = time(NULL);
+	time_t timeInCity;
+	int hoursDiff = 0;
+	bool isSupported = false;
+	if (strcmp(city, "tokyo") == 0)
+	{
+		isSupported = true;
+		hoursDiff = TOKYO_UTC_DIFF;
+	}
+	else if (strcmp(city, "melbourne") == 0)
+	{
+		isSupported = true;
+		hoursDiff = MELBOURNE_UTC_DIFF;
+	}
+	else if (strcmp(city, "san francisco") == 0)
+	{
+		isSupported = true;
+		hoursDiff = SAN_FRANCISCO_UTC_DIFF;
+	}
+	else if (strcmp(city, "porto") == 0)
+	{
+		isSupported = true;
+		hoursDiff = PORTO_UTC_DIFF;
+	}
+
+	// Add the hours diff in seconds to the utc time
+	timeInCity = utc_now + (hoursDiff * SECONDS_PER_HOUR);
+	// Parse the current time to required string
+	struct tm * timeInfo = gmtime(&timeInCity);
+	strftime(sendBuff, SEND_BUFFER_LENGTH, "%X", timeInfo);
+	// Add a byte to let the client know if the city was suppored or not
+	sendBuff[IS_SUPPORTED_POSITION] = isSupported ? '1' : '0';
+	sendBuff[IS_SUPPORTED_POSITION + 1] = '\0';
 }

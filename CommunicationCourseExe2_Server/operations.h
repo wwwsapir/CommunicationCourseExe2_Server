@@ -7,3 +7,4 @@ void GetMonthAndDay(char sendBuff[]);
 void GetSecondsSinceBeginingOfMonth(char sendBuff[]);
 void GetWeekOfYear(char sendBuff[]);
 void GetDaylightSavings(char sendBuff[]);
+void GetTimeWithoutDateInCity(char sendBuff[], char city[]);
