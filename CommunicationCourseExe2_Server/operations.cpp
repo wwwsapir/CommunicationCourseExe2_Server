@@ -17,8 +17,7 @@ using namespace std;
 #define SAN_FRANCISCO_UTC_DIFF	-7
 #define PORTO_UTC_DIFF			1
 #define IS_SUPPORTED_POSITION	8
-//#define MAX_TIME_FOR_TIMER		3 * SECONDS_PER_MINUTE
-#define MAX_TIME_FOR_TIMER		3
+#define MAX_TIME_FOR_TIMER		3 * SECONDS_PER_MINUTE
 
 void getTimeUsingFormat(char sendBuff[], char formatStr[])
 {
