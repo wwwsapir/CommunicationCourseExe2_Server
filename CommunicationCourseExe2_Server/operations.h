@@ -6,3 +6,4 @@ void GetYear(char sendBuff[]);
 void GetMonthAndDay(char sendBuff[]);
 void GetSecondsSinceBeginingOfMonth(char sendBuff[]);
 void GetWeekOfYear(char sendBuff[]);
+void GetDaylightSavings(char sendBuff[]);

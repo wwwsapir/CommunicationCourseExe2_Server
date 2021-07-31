@@ -29,6 +29,8 @@ void createResponse(char recvMessage[], char sendBuff[])
 		GetSecondsSinceBeginingOfMonth(sendBuff);
 	else if (strcmp(recvMessage, "Get the week of year") == 0)
 		GetWeekOfYear(sendBuff);
+	else if (strcmp(recvMessage, "Get the daylight savings status") == 0)
+		GetDaylightSavings(sendBuff);
 }
 
 void main()

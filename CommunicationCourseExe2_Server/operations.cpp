@@ -87,3 +87,13 @@ void GetWeekOfYear(char sendBuff[])
 {
 	getTimeUsingFormat(sendBuff, "%U");
 }
+
+void GetDaylightSavings(char sendBuff[])
+{
+	// Get the current time.
+	time_t timer;
+	time(&timer);
+	// Check the daylight savings status
+	struct tm * timeInfo = localtime(&timer);
+	strcpy(sendBuff, timeInfo->tm_isdst ? "active" : "inactive");
+}
