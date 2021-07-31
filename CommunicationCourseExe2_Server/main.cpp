@@ -9,7 +9,7 @@ using namespace std;
 
 #define TIME_PORT	27015
 
-void CreateResponse(char recvMessage[], char sendBuff[])
+void createResponse(char recvMessage[], char sendBuff[])
 {
 	if (strcmp(recvMessage, "Get the time") == 0)
 		GetTime(sendBuff, false);
@@ -131,7 +131,7 @@ void main()
 		recvBuff[bytesRecv] = '\0'; //add the null-terminating to make it a string
 
 		// Answer client's request
-		CreateResponse(recvBuff, sendBuff);
+		createResponse(recvBuff, sendBuff);
 
 											   // Sends the answer to the client, using the client address gathered
 											   // by recvfrom. 

@@ -9,6 +9,16 @@ using namespace std;
 
 #define SEND_BUFFER_LENGTH 255
 
+void getTimeUsingFormat(char sendBuff[], char formatStr[])
+{
+	// Get the current time.
+	time_t timer;
+	time(&timer);
+	// Parse the current time to required string
+	struct tm * timeInfo = localtime(&timer);
+	strftime(sendBuff, SEND_BUFFER_LENGTH, formatStr, timeInfo);
+}
+
 void GetTime(char sendBuff[], bool inTicks)
 {
 	if (inTicks)
@@ -30,12 +40,7 @@ void GetTime(char sendBuff[], bool inTicks)
 
 void GetTimeWithoutDate(char sendBuff[])
 {
-	// Get the current time.
-	time_t timer;
-	time(&timer);
-	// Parse the current time to required string
-	struct tm * timeInfo = localtime(&timer);
-	strftime(sendBuff, SEND_BUFFER_LENGTH, "%H:%M:%S", timeInfo);
+	getTimeUsingFormat(sendBuff, "%H:%M:%S");
 }
 
 void GetTimeSinceEpoch(char sendBuff[])
