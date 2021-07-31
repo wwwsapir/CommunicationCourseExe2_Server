@@ -75,15 +75,13 @@ void GetMonthAndDay(char sendBuff[])
 
 void GetSecondsSinceBeginingOfMonth(char sendBuff[])
 {
-	char tempBuff[SEND_BUFFER_LENGTH];
-	getTimeUsingFormat(tempBuff, "%d");
-	int daySeconds = atoi(tempBuff) * SECONDS_PER_DAY;
-	getTimeUsingFormat(tempBuff, "%H");
-	int hourSeconds = atoi(tempBuff) * SECONDS_PER_HOUR;
-	getTimeUsingFormat(tempBuff, "%M");
-	int minuteSeconds = atoi(tempBuff) * SECONDS_PER_MINUTE;
-	getTimeUsingFormat(tempBuff, "%S");
-	int seconds = atoi(tempBuff);
+	time_t timer;
+	time(&timer);
+	struct tm * timeInfo = localtime(&timer);	// Get time struct
+	int daySeconds = timeInfo->tm_mday * SECONDS_PER_DAY;
+	int hourSeconds = timeInfo->tm_hour * SECONDS_PER_HOUR;
+	int minuteSeconds = timeInfo->tm_min * SECONDS_PER_MINUTE;
+	int seconds = timeInfo->tm_sec;
 	int secondsSinceBegMonth = daySeconds + hourSeconds + minuteSeconds + seconds;
 	_itoa(secondsSinceBegMonth, sendBuff, 10);
 }
