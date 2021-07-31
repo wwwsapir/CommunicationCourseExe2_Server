@@ -82,3 +82,8 @@ void GetSecondsSinceBeginingOfMonth(char sendBuff[])
 	int secondsSinceBegMonth = daySeconds + hourSeconds + minuteSeconds + seconds;
 	_itoa(secondsSinceBegMonth, sendBuff, 10);
 }
+
+void GetWeekOfYear(char sendBuff[])
+{
+	getTimeUsingFormat(sendBuff, "%U");
+}
